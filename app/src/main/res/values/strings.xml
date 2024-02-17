@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name" translatable="false">PM1E1006</string>
+    <string name="GuardarContacto">Guardar Contacto</string>
+    <string name="ContactosGuardados">Contactos Guardados</string>
+    <string name="Nombre">Escriba su nombre</string>
+    <string name="BuscaContacto">Buscar aqui el contacto</string>
+    <string name="CompartirContacto">Compartir Contacto</string>
+    <string name="VerImagen">Ver Imagen</string>
+    <string name="EliminarContacto">Eliminar Contacto</string>
+    <string name="ActualizarContacto">Actualizar Contacto</string>
+</resources>
