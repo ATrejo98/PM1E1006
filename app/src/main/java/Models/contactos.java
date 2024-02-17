@@ -74,10 +74,10 @@ public class contactos implements Serializable {
         return imagen;
     }
 
+
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
 }
-
 
 

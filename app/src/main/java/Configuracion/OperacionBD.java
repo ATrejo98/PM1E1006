@@ -28,7 +28,4 @@
     
         public static final String BorrarPersonas = "DELETE FROM " + TablePersonas + " WHERE id = '" + id + "'";
 
-    
-    
-    
     }

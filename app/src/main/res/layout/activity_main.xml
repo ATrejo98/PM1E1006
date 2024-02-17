@@ -7,6 +7,7 @@
     android:background="#F6F1F1"
     tools:context=".MainActivity">
 
+
     <ImageView
         android:id="@+id/imageViewPerfil"
         android:layout_width="195dp"

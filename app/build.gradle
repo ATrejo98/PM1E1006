@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.uth.pm1e1006"
-        minSdk 33
+        minSdk 26
         targetSdk 34
         versionCode 1
         versionName "1.0"

@@ -105,6 +105,7 @@ import java.io.Serializable;
                 persona.setPais(cursor.getString(cursor.getColumnIndexOrThrow(OperacionBD.pais)));
 
                 lista.add(persona);
+
             }
             cursor.close();
             FillData();
