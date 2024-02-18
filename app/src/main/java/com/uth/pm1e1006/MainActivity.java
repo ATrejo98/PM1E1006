@@ -228,6 +228,8 @@ public class MainActivity extends AppCompatActivity {
         InputFilter.LengthFilter lengthFilter = new InputFilter.LengthFilter(maxLength);
         editText.setFilters(new InputFilter[]{lengthFilter});
     }
+
+
 }
 
 

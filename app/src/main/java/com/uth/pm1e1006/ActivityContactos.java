@@ -15,9 +15,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 
@@ -38,11 +38,15 @@ import java.io.Serializable;
         ArrayList<contactos> lista;
         ArrayList<String> Arreglo;
 
+        SearchView buscar;
+
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_contactos);
+
+            buscar = findViewById(R.id.campoBuscar);
 
 
             conexion = new SQLiteConexion(this, OperacionBD.DBname, null, 1);
@@ -53,6 +57,19 @@ import java.io.Serializable;
             ArrayAdapter adp = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Arreglo);
 
             listaContactos.setAdapter(adp);
+
+            buscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    filtrarContactos(newText);
+                    return false;
+                }
+            });
 
 
             listaContactos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -81,7 +98,6 @@ import java.io.Serializable;
                     return true;
                 }
             });
-
 
             listaContactos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -125,6 +141,19 @@ import java.io.Serializable;
 
         }
 
+
+        private void filtrarContactos(String query) {
+            ArrayList<contactos> listaFiltrada = new ArrayList<>();
+            for (contactos contacto : lista) {
+                if (contacto.getNombreCompleto().toLowerCase().contains(query.toLowerCase())) {
+                    listaFiltrada.add(contacto);
+                }
+            }
+            // Actualiza la lista mostrada en el ListView con los resultados filtrados
+            ArrayAdapter<String> adp = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, convertirAString(listaFiltrada));
+            listaContactos.setAdapter(adp);
+        }
+
         private void ObtenerInfo() {
             SQLiteDatabase db = conexion.getReadableDatabase();
             contactos persona = null;
@@ -147,16 +176,17 @@ import java.io.Serializable;
         }
 
         private void FillData() {
-            Arreglo = new ArrayList<String>();
-            for (int i = 0; i < lista.size(); i++) {
-                contactos persona = lista.get(i);
-                Arreglo.add(persona.getId() + " | " +
-                        persona.getPais() + " | " +
-                        persona.getNombreCompleto() + " | " +
-                        persona.getTelefono() + " | " +
-                        persona.getNota()
-                );
+            Arreglo = convertirAString(lista);
+        }
+
+        private ArrayList<String> convertirAString(ArrayList<contactos> lista) {
+            ArrayList<String> resultado = new ArrayList<>();
+            for (contactos persona : lista) {
+                resultado.add(persona.getId() + "   |   " +
+                        persona.getNombreCompleto() + "\n Numero Telefonico: " +
+                        persona.getTelefono());
             }
+            return resultado;
         }
 
     }

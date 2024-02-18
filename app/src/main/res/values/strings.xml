@@ -8,4 +8,5 @@
     <string name="VerImagen">Ver Imagen</string>
     <string name="EliminarContacto">Eliminar Contacto</string>
     <string name="ActualizarContacto">Actualizar Contacto</string>
+    <string name="Instrucciones">Aprete una vez para llamar\n\nMantenga pulsado para mas opciones</string>
 </resources>

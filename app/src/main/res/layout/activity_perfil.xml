@@ -9,25 +9,26 @@
 
     <ImageView
         android:id="@+id/imageViewPerfil"
-        android:layout_width="134dp"
-        android:layout_height="128dp"
+        android:layout_width="151dp"
+        android:layout_height="136dp"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="25dp"
+        android:backgroundTint="#B31A1A"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.022"
+        app:layout_constraintHorizontal_bias="0.061"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        android:background="@drawable/image_border" />
 
     <Spinner
         android:id="@+id/spinnerPaisPerfil"
         android:layout_width="350dp"
         android:layout_height="50dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="220dp"
         android:padding="3dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,25 +76,25 @@
         android:id="@+id/btnCompartir"
         android:layout_width="170dp"
         android:layout_height="55dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="68dp"
         android:backgroundTint="#2196F3"
         android:text="@string/CompartirContacto"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.389"
-        app:layout_constraintStart_toEndOf="@+id/imageViewPerfil"
-        app:layout_constraintTop_toBottomOf="@+id/btnVerImagen" />
-
-    <Button
-        android:id="@+id/btnVerImagen"
-        android:layout_width="170dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="#2196F3"
-        android:text="@string/VerImagen"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.378"
+        app:layout_constraintHorizontal_bias="0.467"
         app:layout_constraintStart_toEndOf="@+id/imageViewPerfil"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnActualizar"
+        android:layout_width="350dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="28dp"
+        android:backgroundTint="#4CAF50"
+        android:text="@string/ActualizarContacto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtnotaPerfil" />
 
     <Button
         android:id="@+id/btnEliminar"
@@ -107,19 +108,47 @@
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnActualizar"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.018" />
 
-    <Button
-        android:id="@+id/btnActualizar"
-        android:layout_width="350dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="#4CAF50"
-        android:text="@string/ActualizarContacto"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="200dp"
+        android:text="Pais"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtnotaPerfil" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="60dp"
+        android:text="Nombre"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="60dp"
+        android:text="Numero Telefonico"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="60dp"
+        android:text="Cambiar Nota"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
