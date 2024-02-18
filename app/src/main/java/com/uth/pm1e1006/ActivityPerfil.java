@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -49,10 +50,26 @@ public class ActivityPerfil extends AppCompatActivity {
         imageViewPerfil = (ImageView) findViewById(R.id.imageViewPerfil);
 
 
-
         txtNombrePerfil.setText(contactoSeleccionado.getNombreCompleto());
         txtTelefonoPerfil.setText(contactoSeleccionado.getTelefono());
         txtnotaPerfil.setText(contactoSeleccionado.getNota());
+        String[] paises = {"Honduras", "Belice", "Guatemala", "El Salvador", "Costa Rica", "Panama"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, paises);
+        spinnerPaisPerfil.setAdapter(adapter);
+
+        String paisSeleccionado = contactoSeleccionado.getPais();
+
+        int posicionSeleccionada = -1;
+        for (int i = 0; i < paises.length; i++) {
+            if (paises[i].equals(paisSeleccionado)) {
+                posicionSeleccionada = i;
+                break;
+            }
+        }
+
+        if (posicionSeleccionada != -1) {
+            spinnerPaisPerfil.setSelection(posicionSeleccionada);
+        }
 
 
         btnCompartir.setOnClickListener(new View.OnClickListener() {
@@ -76,11 +93,8 @@ public class ActivityPerfil extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
             }
         });
-
-
 
 
     }

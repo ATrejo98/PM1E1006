@@ -15,6 +15,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.text.method.DigitsKeyListener;
 import android.view.View;
 
 import android.widget.ArrayAdapter;
@@ -35,17 +38,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 public class MainActivity extends AppCompatActivity {
-
-
-    ///Declaracion de Variables
-
     EditText nombreCompleto, telefono, nota;
     private String currentPhotoPath;
     static final int PETICION_ACCESO_CAM = 100;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-
     ImageView imageView;
     Button btntomarfoto, btnGuardarContacto, btnContactos;
     Spinner spinnerPais;
@@ -60,16 +57,16 @@ public class MainActivity extends AppCompatActivity {
         btnGuardarContacto = findViewById(R.id.btnGuardarContacto);
         btnContactos = findViewById(R.id.btnContactos);
 
-
         spinnerPais = (Spinner) findViewById(R.id.spinnerPaisPerfil);
         nombreCompleto = (EditText) findViewById(R.id.txtNombrePerfil);
         telefono = (EditText) findViewById(R.id.txtTelefonoPerfil);
         nota = (EditText) findViewById(R.id.txtnotaPerfil);
 
-
         String[] paises = {"Honduras", "Belice", "Guatemala", "El Salvador", "Costa Rica", "Panama"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, paises);
         spinnerPais.setAdapter(adapter);
+
+        aplicarExpresionRegularYLongitudMaxima(telefono, "[0-9]+", 10);
 
 
         btntomarfoto.setOnClickListener(new View.OnClickListener() {
@@ -94,11 +91,8 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), ActivityContactos.class);
                 startActivity(intent);
-
             }
         });
-
-
     }
 
     private void permisos() {
@@ -154,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
                 ".jpg",
                 storageDir
         );
-
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
@@ -178,8 +171,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     private void AgreContacto() {
+        String pais = spinnerPais.getSelectedItem().toString();
+        String nombre = nombreCompleto.getText().toString().trim();
+        String numero = telefono.getText().toString().trim();
+        String notaTexto = nota.getText().toString().trim();
+
+        if (pais.isEmpty() || nombre.isEmpty() || numero.isEmpty() || notaTexto.isEmpty()) {
+
+            Toast.makeText(getApplicationContext(), "Todos los campos son obligatorios", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         SQLiteConexion conexion = new SQLiteConexion(this, OperacionBD.DBname, null, 1);
         SQLiteDatabase db = conexion.getWritableDatabase();
@@ -191,17 +193,45 @@ public class MainActivity extends AppCompatActivity {
         valores.put(OperacionBD.nota, nota.getText().toString());
         valores.put(OperacionBD.imagen, currentPhotoPath);
 
-
         Long resultado = db.insert(OperacionBD.TablePersonas, OperacionBD.id, valores);
-
-        Toast.makeText(getApplicationContext(), "Contacto añadido con exito" + resultado,
-                Toast.LENGTH_LONG).show();
         db.close();
 
+        if (resultado != -1) {
+            Toast.makeText(getApplicationContext(), "Contacto añadido con éxito", Toast.LENGTH_LONG).show();
 
+        } else {
+            Toast.makeText(getApplicationContext(), "Error al añadir contacto", Toast.LENGTH_LONG).show();
+        }
+        limpiarCampos();
     }
 
+    private void limpiarCampos() {
+        spinnerPais.setSelection(0);
+        nombreCompleto.setText("");
+        telefono.setText("");
+        nota.setText("");
+    }
+
+    private void aplicarExpresionRegularYLongitudMaxima(EditText editText, final String regex, final int maxLength) {
+        DigitsKeyListener digitsKeyListener = new DigitsKeyListener() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+
+                if (source != null && !source.toString().matches(regex)) {
+                    return "";
+                }
+                return null;
+            }
+        };
+
+        editText.setKeyListener(digitsKeyListener);
+        InputFilter.LengthFilter lengthFilter = new InputFilter.LengthFilter(maxLength);
+        editText.setFilters(new InputFilter[]{lengthFilter});
+    }
 }
+
+
+
 
 
 

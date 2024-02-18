@@ -2,12 +2,15 @@ package com.uth.pm1e1006;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,6 +30,8 @@ import java.io.Serializable;
 
 
     public class ActivityContactos extends AppCompatActivity {
+
+        static final int PETICION_LLAMADA = 100;
 
         SQLiteConexion conexion;
         ListView listaContactos;
@@ -79,11 +84,42 @@ import java.io.Serializable;
 
 
             listaContactos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    contactos persona = lista.get(position);
+                    final String telefono = persona.getTelefono();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityContactos.this);
+                    builder.setTitle("Confirmación");
+                    builder.setMessage("¿Desea realizar la llamada a este contacto?");
+                    builder.setPositiveButton("Llamar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            Intent callIntent = new Intent(Intent.ACTION_CALL);
+                            callIntent.setData(Uri.parse("tel:" + telefono));
 
 
+                            if (ActivityCompat.checkSelfPermission(ActivityContactos.this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(ActivityContactos.this, new String[]{android.Manifest.permission.CALL_PHONE}, PETICION_LLAMADA);
+                                return;
+                            }
+
+                            startActivity(callIntent);
+                        }
+                    });
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+
+                    builder.create().show();
                 }
+
+
             });
 
 
@@ -105,7 +141,6 @@ import java.io.Serializable;
                 persona.setPais(cursor.getString(cursor.getColumnIndexOrThrow(OperacionBD.pais)));
 
                 lista.add(persona);
-
             }
             cursor.close();
             FillData();
